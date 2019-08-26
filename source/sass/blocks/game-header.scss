@@ -1,11 +1,13 @@
 .game-header {
   position: relative;
   margin: $margin-auto;
+  margin-bottom: 90px;
   width: $desktop-width;
   padding-top: 20px;
 
   &__game-name {
     margin: $margin-auto;
+    margin-bottom: 90px;
     width: 50%;
     font-size: 38px;
     line-height: 48px;
@@ -16,7 +18,7 @@
 
   &__game-rules-link {
     position: absolute;
-    top: 45%;
+    top: 16%;
     right: 15%;
     font-size: 20px;
     color: rgba(33, 71, 205, 1);
@@ -33,13 +35,14 @@
 
   &__game-rules-popup {
     position: absolute;
+    top: 35%;
     right: 2%;
     display: none;
     padding: 25px;
     width: 32%;
     background-color: #ffffff;
     box-shadow: 2px 4px 15px -3px rgba(0, 0, 0, .5);
-    transition: all 1s ease-in-out;
+    transition: all .5s ease-in-out;
     opacity: 0;
     z-index: 2;
 
@@ -60,5 +63,25 @@
     margin-left: 15px;
     list-style-type: decimal;
     color: rgb(182, 139, 139);
+  }
+
+  &__start-game {
+    margin: $margin-auto;
+    padding: 15px 50px;
+    display: block;
+    color: #ffffff;
+    background-color: rgb(149, 22, 10);
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(149, 22, 10, 1);
+      box-shadow: 0 -1px 20px 6px rgb(84, 145, 233) inset;
+    }
+
+    &:active {
+      box-shadow: none;
+      background-color: rgba(149, 22, 10, .5);
+    }
   }
 }

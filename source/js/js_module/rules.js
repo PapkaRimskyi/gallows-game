@@ -8,12 +8,12 @@
       rulesPopup.classList.add('game-header__game-rules-popup--active');
       setTimeout(() => {
         rulesPopup.style = 'opacity: 1';
-      }, 500);
+      }, 300);
     } else {
       rulesPopup.style = 'opacity: 0';
       setTimeout(() => {
         rulesPopup.classList.remove('game-header__game-rules-popup--active');
-      }, 1000);
+      }, 500);
     }
   }
 
