@@ -1,9 +1,9 @@
 .play-area {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 
   &__game-area {
-    width: 60%;
+    width: 55%;
     display: flex;
     flex-direction: column;
   }
@@ -42,12 +42,45 @@
 
   &__attempts-left {
 
+    &-list {
+      display: flex;
+    }
+
+    &-health {
+      fill: green;
+    }
+
     &-health {
       margin: 0 5px;
     }
   }
 
-  &__letter-list {
+  &__letter-list-container {
+    width: 55%;
     display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__letter-list-button {
+    padding: 20px 10px;
+    min-width: 50px;
+    font-size: 24px;
+    line-height: 36px;
+    text-align: center;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #cfcfcf;
+    }
+
+    &:active {
+      opacity: .5;
+    }
+
+    &:disabled {
+      opacity: .2;
+    }
   }
 }
