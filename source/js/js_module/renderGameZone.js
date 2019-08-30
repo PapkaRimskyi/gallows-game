@@ -37,8 +37,9 @@
       ul.style = 'display: flex; flex-wrap: wrap;';
       renderListItem(ul);
       letterListContainer.append(ul);
+      renderLetterCells();
+      startGameButton.disabled = true;
     }
-    renderLetterCells();
     console.log(gameInfoObj.word);
   }
 
@@ -73,6 +74,7 @@
           hiddenWordCell[i].textContent = target.textContent;
         }
       }
+      target.disabled = true;
     }
   }
 
