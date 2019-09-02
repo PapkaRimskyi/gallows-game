@@ -72,14 +72,26 @@
 
   //Game code
 
-  // function gameEnd(index, healthIndex) {
-  //   if (index === healthIndex - 1) {
-  //     let divEndGame = document.createElement('div');
-  //     divEndGame.style = 'position: absolute; background-color: #ffffff; z-index: 100; box-shadow: 1px 0 4px 6px #000000;';
-  //     divEndGame.textContent = 'Вы проиграли';
-  //     document.body.append(divEndGame);
-  //   }
-  // }
+  function renderResult(text) {
+    let collectionButton = document.querySelectorAll('.play-area__letter-list-button');
+    let reloadLink = document.createElement('a');
+    reloadLink.classList.add('game-header__result-link-reload');
+    reloadLink.setAttribute('href', '#');
+    reloadLink.textContent = text + ' Нажмите сюда, чтобы поиграть еще.';
+    reloadLink.style = 'position: absolute; bottom: -26%; right: 33%; font-size: 24px; color: rgb(163, 21, 12);';
+    document.querySelector('.game-header').append(reloadLink);
+    for (let key of collectionButton) {
+      key.disabled = true;
+    }
+    setLinkListener();
+  }
+
+  function setLinkListener() {
+    document.querySelector('.game-header__result-link-reload').addEventListener('click', function(evt) {
+      evt.preventDefault();
+      document.location.reload(true);
+    });
+  }
 
   function invalidLetter() {
     for (let i = 0; i < healthBar.length; i++) {
@@ -88,14 +100,22 @@
         healthBar[i].style = 'fill: #000000';
         humanFigure.children[i].style = 'display: block';
         if (i === healthBar.length - 1) {
-          let divEndGame = document.createElement('div');
-          divEndGame.style = 'position: absolute; top: 31%; right: 36%; padding: 118px 20px; width: 500px; height: 300px; font-size: 50px; line-height: 50px; text-align: center; background-color: #ffffff; z-index: 100; box-shadow: 1px 0 30px 3px rgba(#000000, 0.44);';
-          divEndGame.textContent = 'Вы проиграли';
-          document.body.append(divEndGame);
+          renderResult('Вы проиграли.');
         }
         break;
       }
     }
+  }
+
+  function checkCell(cellCollection) {
+    for (let word of cellCollection) {
+      if (word.textContent) {
+        continue;
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 
   function buttonLetterHandler(evt) {
@@ -112,6 +132,9 @@
         }
       }
       target.disabled = true;
+    }
+    if (checkCell(hiddenWordCell)) {
+      renderResult('Вы выиграли.');
     }
   }
 
