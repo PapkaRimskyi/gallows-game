@@ -1,4 +1,5 @@
 (function () {
+  const gameHeader = document.querySelector('.game-header');
   const letterListContainer = document.querySelector('.play-area__letter-list-container');
   const startGameButton = document.querySelector('.game-header__start-game');
   const healthBar = document.querySelectorAll('.play-area__attempts-left-health');
@@ -50,11 +51,26 @@
     }
   }
 
+  let renderTimer = {
+    timerID: null,
+    timer: null,
+    setTimer() {
+      this.timer = document.createElement('span');
+      this.timer.textContent = 0;
+      this.timer.style = 'position: absolute; left: -10%; top: 0;';
+      document.querySelector('.game-main').prepend(this.timer);
+      this.timerID = setInterval(() => this.timer.textContent++, 1000);
+    },
+    stopTimer() {
+      clearInterval(this.timerID);
+      this.timer.textContent = this.timer.textContent + 's';
+    },
+  }
+
   function renderLetterCells() {
     if (!document.querySelector('.play-area__hidden-word-list')) {
       let randomWord = wordArray[Math.floor(Math.random() * wordArray.length)].toUpperCase();
       gameInfoObj.word = randomWord;
-      gameInfoObj.attempts = [true, true, true, true, true, true];
       let ul = document.createElement('ul');
       ul.classList.add('play-area__hidden-word-list');
       for (let i = 0; i < randomWord.length; i++) {
@@ -65,6 +81,7 @@
       document.querySelector('.play-area__hidden-word').append(ul);
       healthColor('fill: #d75a4a');
       setHiddenHumanElements();
+      renderTimer.setTimer();
     }
   }
 
@@ -72,25 +89,25 @@
 
   //Game code
 
+  function setLinkListener() {
+    document.querySelector('.game-header__result-link-reload').addEventListener('click', function(evt) {
+      evt.preventDefault();
+      document.location.reload(true);
+    });
+  }
+
   function renderResult(text) {
     let collectionButton = document.querySelectorAll('.play-area__letter-list-button');
     let reloadLink = document.createElement('a');
     reloadLink.classList.add('game-header__result-link-reload');
     reloadLink.setAttribute('href', '#');
     reloadLink.textContent = text + ' Нажмите сюда, чтобы поиграть еще.';
-    reloadLink.style = 'position: absolute; bottom: -26%; right: 33%; font-size: 24px; color: rgb(163, 21, 12);';
-    document.querySelector('.game-header').append(reloadLink);
+    reloadLink.style = 'position: absolute; bottom: -28%; right: 33%; font-size: 24px; color: rgb(163, 21, 12);';
+    gameHeader.append(reloadLink);
     for (let key of collectionButton) {
       key.disabled = true;
     }
     setLinkListener();
-  }
-
-  function setLinkListener() {
-    document.querySelector('.game-header__result-link-reload').addEventListener('click', function(evt) {
-      evt.preventDefault();
-      document.location.reload(true);
-    });
   }
 
   function invalidLetter() {
@@ -101,6 +118,7 @@
         humanFigure.children[i].style = 'display: block';
         if (i === healthBar.length - 1) {
           renderResult('Вы проиграли.');
+          renderTimer.stopTimer();
         }
         break;
       }
