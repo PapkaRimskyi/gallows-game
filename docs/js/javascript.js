@@ -132,10 +132,12 @@
         break;
 
       case '':
-        if (!(i === length)) {
+        if (i !== length) {
           audio.src = '../../music/wrong.mp3';
           break;
         }
+
+        break;
 
       case 'Вы выиграли.':
         audio.src = '../../music/win.mp3';
@@ -145,14 +147,8 @@
     audio.play();
   }
 
-  function renderResult(text) {
+  function disableAllButton() {
     var collectionButton = document.querySelectorAll('.play-area__letter-list-button');
-    var reloadLink = document.createElement('a');
-    reloadLink.classList.add('game-header__result-link-reload');
-    reloadLink.setAttribute('href', '#');
-    reloadLink.textContent = text + ' Нажмите сюда, чтобы поиграть еще.';
-    reloadLink.style = 'position: absolute; bottom: -28%; right: 33%; font-size: 24px; color: rgb(163, 21, 12);';
-    gameHeader.append(reloadLink);
     var _iteratorNormalCompletion2 = true;
     var _didIteratorError2 = false;
     var _iteratorError2 = undefined;
@@ -176,39 +172,26 @@
         }
       }
     }
-
-    setLinkListener();
-    renderTimer.stopTimer();
-    musicalAccompaniment(text);
   }
 
-  function invalidLetter() {
-    for (var i = 0; i < healthBar.length; i++) {
-      if (!healthBar[i].classList.contains('play-area__attempts-left-health--lost-life')) {
-        healthBar[i].classList.add('play-area__attempts-left-health--lost-life');
-        healthBar[i].style = 'fill: #000000';
-        humanFigure.children[i].style = 'display: block';
-        musicalAccompaniment('', i, healthBar.length - 1);
-
-        if (i === healthBar.length - 1) {
-          renderResult('Вы проиграли.');
-        }
-
-        break;
-      }
-    }
+  function createLinkResult() {
+    var reloadLink = document.createElement('a');
+    reloadLink.classList.add('game-header__result-link-reload');
+    reloadLink.setAttribute('href', '#');
+    reloadLink.style = 'position: absolute; bottom: -28%; right: 33%; font-size: 24px; color: rgb(163, 21, 12);';
+    return reloadLink;
   }
 
-  function checkCell(cellCollection) {
+  function checkClass(elementCollection, classContain) {
     var _iteratorNormalCompletion3 = true;
     var _didIteratorError3 = false;
     var _iteratorError3 = undefined;
 
     try {
-      for (var _iterator3 = cellCollection[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-        var word = _step3.value;
+      for (var _iterator3 = elementCollection[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var element = _step3.value;
 
-        if (word.textContent) {
+        if (element.classList.contains(classContain)) {
           continue;
         } else {
           return false;
@@ -232,6 +215,74 @@
     return true;
   }
 
+  function checkCell(cellCollection) {
+    var _iteratorNormalCompletion4 = true;
+    var _didIteratorError4 = false;
+    var _iteratorError4 = undefined;
+
+    try {
+      for (var _iterator4 = cellCollection[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+        var word = _step4.value;
+
+        if (word.textContent) {
+          continue;
+        } else {
+          return false;
+        }
+      }
+    } catch (err) {
+      _didIteratorError4 = true;
+      _iteratorError4 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
+          _iterator4["return"]();
+        }
+      } finally {
+        if (_didIteratorError4) {
+          throw _iteratorError4;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  function renderResult() {
+    if (checkCell(document.querySelectorAll('.play-area__hidden-word-list-item'))) {
+      var reloadLink = createLinkResult();
+      reloadLink.textContent = 'Вы выиграли. Нажмите сюда, чтобы поиграть еще.';
+      gameHeader.append(reloadLink);
+      disableAllButton();
+      renderTimer.stopTimer();
+      setLinkListener();
+      musicalAccompaniment('Вы выиграли.');
+    }
+
+    if (checkClass(document.querySelectorAll('.play-area__attempts-left-health'), 'play-area__attempts-left-health--lost-life')) {
+      var _reloadLink = createLinkResult();
+
+      _reloadLink.textContent = 'Вы проиграли. Нажмите сюда, чтобы поиграть еще.';
+      gameHeader.append(_reloadLink);
+      disableAllButton();
+      renderTimer.stopTimer();
+      setLinkListener();
+      musicalAccompaniment('Вы проиграли.');
+    }
+  }
+
+  function invalidLetter() {
+    for (var i = 0; i < healthBar.length; i++) {
+      if (!healthBar[i].classList.contains('play-area__attempts-left-health--lost-life')) {
+        healthBar[i].classList.add('play-area__attempts-left-health--lost-life');
+        healthBar[i].style = 'fill: #000000';
+        humanFigure.children[i].style = 'display: block';
+        musicalAccompaniment('', i, healthBar.length - 1);
+        break;
+      }
+    }
+  }
+
   function buttonLetterHandler(evt) {
     var target = evt.target;
     var hiddenWordCell = document.querySelectorAll('.play-area__hidden-word-list-item');
@@ -251,9 +302,7 @@
       target.disabled = true;
     }
 
-    if (checkCell(hiddenWordCell)) {
-      renderResult('Вы выиграли.');
-    }
+    renderResult();
   }
 
   letterListContainer.addEventListener('click', buttonLetterHandler);

@@ -104,10 +104,11 @@
         audio.src = '../../music/lolYouDied.mp3';
         break;
       case '':
-        if (!(i === length)) {
+        if (i !== length) {
           audio.src = '../../music/wrong.mp3';
           break;
         }
+        break;
       case 'Вы выиграли.':
         audio.src = '../../music/win.mp3';
         break;
@@ -115,35 +116,30 @@
     audio.play();
   }
 
-  function renderResult(text) {
+  function disableAllButton() {
     let collectionButton = document.querySelectorAll('.play-area__letter-list-button');
-    let reloadLink = document.createElement('a');
-    reloadLink.classList.add('game-header__result-link-reload');
-    reloadLink.setAttribute('href', '#');
-    reloadLink.textContent = text + ' Нажмите сюда, чтобы поиграть еще.';
-    reloadLink.style = 'position: absolute; bottom: -28%; right: 33%; font-size: 24px; color: rgb(163, 21, 12);';
-    gameHeader.append(reloadLink);
     for (let key of collectionButton) {
       key.disabled = true;
     }
-    setLinkListener();
-    renderTimer.stopTimer();
-    musicalAccompaniment(text);
   }
 
-  function invalidLetter() {
-    for (let i = 0; i < healthBar.length; i++) {
-      if (!healthBar[i].classList.contains('play-area__attempts-left-health--lost-life')) {
-        healthBar[i].classList.add('play-area__attempts-left-health--lost-life');
-        healthBar[i].style = 'fill: #000000';
-        humanFigure.children[i].style = 'display: block';
-        musicalAccompaniment('', i, healthBar.length - 1);
-        if (i === healthBar.length - 1) {
-          renderResult('Вы проиграли.');
-        }
-        break;
+  function createLinkResult() {
+    let reloadLink = document.createElement('a');
+    reloadLink.classList.add('game-header__result-link-reload');
+    reloadLink.setAttribute('href', '#');
+    reloadLink.style = 'position: absolute; bottom: -28%; right: 33%; font-size: 24px; color: rgb(163, 21, 12);';
+    return reloadLink;
+  }
+
+  function checkClass(elementCollection, classContain) {
+    for (let element of elementCollection) {
+      if (element.classList.contains(classContain)) {
+        continue;
+      } else {
+        return false;
       }
     }
+    return true;
   }
 
   function checkCell(cellCollection) {
@@ -155,6 +151,39 @@
       }
     }
     return true;
+  }
+
+  function renderResult() {
+    if (checkCell(document.querySelectorAll('.play-area__hidden-word-list-item'))) {
+      let reloadLink = createLinkResult();
+      reloadLink.textContent = 'Вы выиграли. Нажмите сюда, чтобы поиграть еще.';
+      gameHeader.append(reloadLink);
+      disableAllButton();
+      renderTimer.stopTimer();
+      setLinkListener();
+      musicalAccompaniment('Вы выиграли.');
+    }
+    if (checkClass(document.querySelectorAll('.play-area__attempts-left-health'), 'play-area__attempts-left-health--lost-life')) {
+      let reloadLink = createLinkResult();
+      reloadLink.textContent = 'Вы проиграли. Нажмите сюда, чтобы поиграть еще.';
+      gameHeader.append(reloadLink);
+      disableAllButton();
+      renderTimer.stopTimer();
+      setLinkListener();
+      musicalAccompaniment('Вы проиграли.');
+    }
+  }
+
+  function invalidLetter() {
+    for (let i = 0; i < healthBar.length; i++) {
+      if (!healthBar[i].classList.contains('play-area__attempts-left-health--lost-life')) {
+        healthBar[i].classList.add('play-area__attempts-left-health--lost-life');
+        healthBar[i].style = 'fill: #000000';
+        humanFigure.children[i].style = 'display: block';
+        musicalAccompaniment('', i, healthBar.length - 1);
+        break;
+      }
+    }
   }
 
   function buttonLetterHandler(evt) {
@@ -172,9 +201,7 @@
       }
       target.disabled = true;
     }
-    if (checkCell(hiddenWordCell)) {
-      renderResult('Вы выиграли.');
-    }
+    renderResult();
   }
 
   letterListContainer.addEventListener('click', buttonLetterHandler);
