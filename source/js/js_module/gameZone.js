@@ -96,6 +96,25 @@
     });
   }
 
+  function musicalAccompaniment(text, i, length) {
+    let audio = new Audio();
+    audio.volume = 0.4;
+    switch(text) {
+      case 'Вы проиграли.':
+        audio.src = '../../music/lolYouDied.mp3';
+        break;
+      case '':
+        if (!(i === length)) {
+          audio.src = '../../music/wrong.mp3';
+          break;
+        }
+      case 'Вы выиграли.':
+        audio.src = '../../music/win.mp3';
+        break;
+    }
+    audio.play();
+  }
+
   function renderResult(text) {
     let collectionButton = document.querySelectorAll('.play-area__letter-list-button');
     let reloadLink = document.createElement('a');
@@ -108,6 +127,8 @@
       key.disabled = true;
     }
     setLinkListener();
+    renderTimer.stopTimer();
+    musicalAccompaniment(text);
   }
 
   function invalidLetter() {
@@ -116,9 +137,9 @@
         healthBar[i].classList.add('play-area__attempts-left-health--lost-life');
         healthBar[i].style = 'fill: #000000';
         humanFigure.children[i].style = 'display: block';
+        musicalAccompaniment('', i, healthBar.length - 1);
         if (i === healthBar.length - 1) {
           renderResult('Вы проиграли.');
-          renderTimer.stopTimer();
         }
         break;
       }
