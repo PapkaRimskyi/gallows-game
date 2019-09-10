@@ -1,7 +1,7 @@
 {
-  "name": "watch-shop",
+  "name": "gallows-game",
   "version": "1.0.0",
-  "description": "Watch-shop website",
+  "description": "gallows-game",
   "main": "gulpfile.js",
   "scripts": {
     "editorconfig": "editorconfig",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PapkaRimskyi/watch-shop.git"
+    "url": "git+https://github.com/PapkaRimskyi/gallows-game.git"
   },
   "author": "PR",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/PapkaRimskyi/watch-shop/issues"
+    "url": "https://github.com/PapkaRimskyi/gallows-game/issues"
   },
-  "homepage": "https://github.com/PapkaRimskyi/watch-shop#readme",
+  "homepage": "https://github.com/PapkaRimskyi/gallows-game#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.5.5",
     "autoprefixer": "^9.5.1",

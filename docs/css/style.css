@@ -170,9 +170,8 @@ h1, h2, h3, p {
     display: -ms-flexbox;
     display: flex; }
   .play-area__attempts-left-health {
+    margin: 0 5px;
     fill: green; }
-  .play-area__attempts-left-health {
-    margin: 0 5px; }
   .play-area__letter-list-container {
     width: 55%;
     display: -webkit-box;

@@ -122,25 +122,25 @@
     });
   }
 
-  function musicalAccompaniment(text, i, length) {
+  function musicalAccompaniment(text) {
     var audio = new Audio();
     audio.volume = 0.4;
 
     switch (text) {
       case 'Вы проиграли.':
-        audio.src = '../../music/lolYouDied.mp3';
+        audio.src = '../music/lolYouDied.mp3';
         break;
 
-      case '':
-        if (i !== length) {
-          audio.src = '../../music/wrong.mp3';
-          break;
-        }
+      case 'wrong answer':
+        audio.src = '../music/wrong.mp3';
+        break;
 
+      case 'right answer':
+        audio.src = '../music/correct.mp3';
         break;
 
       case 'Вы выиграли.':
-        audio.src = '../../music/win.mp3';
+        audio.src = '../music/win.mp3';
         break;
     }
 
@@ -277,7 +277,6 @@
         healthBar[i].classList.add('play-area__attempts-left-health--lost-life');
         healthBar[i].style = 'fill: #000000';
         humanFigure.children[i].style = 'display: block';
-        musicalAccompaniment('', i, healthBar.length - 1);
         break;
       }
     }
@@ -294,8 +293,10 @@
         if (target.textContent === gameInfoObj.word[i]) {
           rightLetter = true;
           hiddenWordCell[i].textContent = target.textContent;
+          musicalAccompaniment('right answer');
         } else if (rightLetter === false && i === gameInfoObj.word.length - 1) {
           invalidLetter();
+          musicalAccompaniment('wrong answer');
         }
       }
 
