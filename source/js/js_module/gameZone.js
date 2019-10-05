@@ -97,7 +97,8 @@
   }
 
   function musicalAccompaniment(text) {
-    let audio = new Audio();
+    let audio = document.querySelector('.audio-answer');
+    console.log(audio);
     audio.volume = 0.4;
     switch(text) {
       case 'Вы проиграли.':

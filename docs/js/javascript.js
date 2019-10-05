@@ -123,7 +123,8 @@
   }
 
   function musicalAccompaniment(text) {
-    var audio = new Audio();
+    var audio = document.querySelector('.audio-answer');
+    console.log(audio);
     audio.volume = 0.4;
 
     switch (text) {
