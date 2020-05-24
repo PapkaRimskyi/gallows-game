@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="70" height="85" fill="#fff">
-  <g class="gallow-head" stroke-width="2" stroke="#000">
-    <circle r="12" cx="35" cy="17"/>
-    <path d="M28 14h4m5 0h4m-11 6h9"/>
-  </g>
-  <path d="M35 30v40m1-38L20 50m15-18l15 18M36 67L20 80m15-13l15 13" stroke-width="3" stroke="#000"/>
-</svg>

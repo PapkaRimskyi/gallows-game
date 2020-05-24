@@ -1,27 +1,33 @@
 .game-header {
-  position: relative;
   margin: $margin-auto;
-  margin-bottom: 90px;
-  width: $desktop-width;
-  padding-top: 20px;
+  margin-bottom: 50px;
+  max-width: $mobile-width;
+  padding-top: 10px;
+
+  &__container {
+    position: relative;
+  }
 
   &__game-name {
     margin: $margin-auto;
-    margin-bottom: 90px;
+    padding-bottom: 30px;
     width: 50%;
-    font-size: 38px;
-    line-height: 48px;
+    font-size: 24px;
+    line-height: 28px;
     text-align: center;
     text-transform: uppercase;
     text-decoration: underline;
   }
 
-  &__game-rules-link {
+  &__game-rules-button {
     position: absolute;
-    top: 16%;
-    right: 15%;
-    font-size: 20px;
+    top: 80%;
+    right: 34%;
+    font-family: inherit;
+    font-size: 16px;
     color: rgba(33, 71, 205, 1);
+    border: none;
+    cursor: pointer;
     z-index: 1;
 
     &:hover {
@@ -35,57 +41,81 @@
 
   &__game-rules-popup {
     position: absolute;
-    top: 35%;
-    right: 2%;
-    display: none;
-    padding: 25px;
-    width: 32%;
-    background-color: #ffffff;
+    top: 140%;
+    padding: 15px 20px;
+    background-color: $white-color;
     box-shadow: 2px 4px 15px -3px rgba(0, 0, 0, .5);
     transition: all .5s ease-in-out;
-    opacity: 0;
     z-index: 2;
-
-    &--active {
-      display: block;
-    }
   }
 
   &__game-rules-headline {
     margin: $margin-auto;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     width: 65%;
     text-align: center;
-    color: #000000;
+    color: $black-color;
   }
 
   &__game-rules-list {
     margin-left: 15px;
     list-style-type: decimal;
-    color: rgb(182, 139, 139);
+    color: $rules-font-color;
   }
+}
 
-  &__start-game {
-    margin: $margin-auto;
-    padding: 15px 50px;
-    display: block;
-    color: #ffffff;
-    background-color: rgb(149, 22, 10);
-    border: none;
-    cursor: pointer;
+@media (min-width: $tablet-width) {
+  .game-header {
+    margin-bottom: 100px;
+    max-width: $tablet-width;
 
-    &:hover {
-      background-color: rgba(149, 22, 10, 1);
-      box-shadow: 0 -1px 20px 6px rgb(84, 145, 233) inset;
+    &__game-name {
+      margin-bottom: 80px;
+      font-size: 28px;
+      line-height: 32px;
     }
 
-    &:active {
-      box-shadow: none;
-      background-color: rgba(149, 22, 10, .5);
+    &__game-rules-button {
+      top: 5%;
+      right: 10%;
+      font-size: 18px;
     }
 
-    &:disabled {
-      opacity: .3;
+    &__game-rules-popup {
+      top: 70%;
+      right: 0;
+      width: 32%;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .game-header {
+    margin-bottom: 90px;
+    max-width: $max-desktop-width;
+    padding-top: 20px;
+
+    &__game-name {
+      margin-bottom: 0px;
+      font-size: 38px;
+      line-height: 48px;
+    }
+
+    &__game-rules-button {
+      top: 12%;
+      right: 15%;
+      font-size: 20px;
+    }
+
+    &__game-rules-popup {
+      top: 60%;
+      right: 5%;
+      padding: 25px;
+      width: 32%;
+    }
+
+    &__game-rules-headline {
+      margin-bottom: 15px;
     }
   }
 }

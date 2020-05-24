@@ -1,5 +1,40 @@
 .game-main {
   position: relative;
   margin: $margin-auto;
-  width: 40%;
+
+  &__start-game-button {
+    margin: $margin-auto;
+    padding: 15px 50px;
+    display: block;
+    color: $white-color;
+    background-color: $dark-red-color;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(149, 22, 10, 1);
+      box-shadow: 0 -1px 20px 6px rgb(84, 145, 233) inset;
+    }
+
+    &:active {
+      box-shadow: none;
+      background-color: rgba(149, 22, 10, .5);
+    }
+
+    &:disabled {
+      opacity: .3;
+    }
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .game-main {
+    width: 40%;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .game-main {
+    width: 50%;
+  }
 }
