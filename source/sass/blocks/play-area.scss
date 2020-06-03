@@ -58,6 +58,11 @@
     flex-wrap: wrap;
   }
 
+  &__letter-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   &__letter-list-button {
     padding: 20px 10px;
     min-width: 50px;
