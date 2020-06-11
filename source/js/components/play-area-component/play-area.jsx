@@ -1,12 +1,14 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import randomNumber from '../../randomNumber';
+import randomNumber from '../../support-methods/randomNumber';
 
 import StartGameButton from './buttons-area/start-game';
 
 import HiddenWord from './info-area/hidden-word';
 import GallowArea from './info-area/gallow-area';
 import Attempts from './info-area/attempts';
+import GameTimer from './info-area/gameTimer';
+import EndGamePopup from './buttons-area/end-game';
 
 import LetterButtons from './buttons-area/letter-buttons';
 
@@ -14,15 +16,22 @@ export default class PlayArea extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isGameStarted: false, livesLeft: [true, true, true, true, true, true], currentButtonLetter: null, allButtonsDisabled: false,
+      isGameStarted: false,
+      livesLeft: [true, true, true, true, true, true],
+      currentButtonLetter: null,
+      allButtonsDisabled: false,
+      stopTimer: false,
+      gameEndStatus: null,
     };
 
     this.wordsForGame = ['дружба', 'пляж', 'солнце', 'луна', 'спутник', 'механизм', 'человек'];
     this.hiddenWord = null;
+    this.timeGame = null;
     this.alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
 
     this.startGameButtonHandler = this.startGameButtonHandler.bind(this);
     this.buttonLettersDelegationHandler = this.buttonLettersDelegationHandler.bind(this);
+    this.getTimeGame = this.getTimeGame.bind(this);
   }
 
   componentDidMount() {
@@ -40,9 +49,19 @@ export default class PlayArea extends React.Component {
     this.hiddenWord = this.wordsForGame[randomNumber(0, this.wordsForGame.length - 1)];
   }
 
+  getTimeGame(time) {
+    this.timeGame = time;
+  }
+
   endOfGame(letterCellCollection) {
-    if (letterCellCollection.filter((item) => item.textContent).length === letterCellCollection.length) {
-      this.setState((prevState) => ({ allButtonsDisabled: !prevState.allButtonsDisabled }));
+    const { livesLeft } = this.state;
+    if (letterCellCollection.filter((item) => item.textContent).length === letterCellCollection.length || livesLeft.filter((live) => live).length === 0) {
+      this.setState((prevState) => ({ allButtonsDisabled: !prevState.allButtonsDisabled, stopTimer: !prevState.stopTimer }));
+      if (livesLeft.filter((live) => live).length === 0) {
+        this.setState(() => ({ gameEndStatus: false }));
+      } else {
+        this.setState(() => ({ gameEndStatus: true }));
+      }
     }
   }
 
@@ -75,12 +94,13 @@ export default class PlayArea extends React.Component {
   }
 
   render() {
-    const { isGameStarted } = this.state;
+    const { isGameStarted, stopTimer, gameEndStatus } = this.state;
     if (isGameStarted) {
       const { livesLeft, currentButtonLetter, allButtonsDisabled } = this.state;
       return (
         <section className="play-area">
           <h2 className="visually-hidden">Игровая зона</h2>
+          <GameTimer stopTimer={stopTimer} getTimeGame={this.getTimeGame} />
           <div className="play-area__game-area">
             <HiddenWord word={this.hiddenWord} buttonLetter={currentButtonLetter} />
             <GallowArea lives={livesLeft} />
@@ -91,6 +111,7 @@ export default class PlayArea extends React.Component {
               {this.alphabet.split('').map((letter) => <LetterButtons key={letter} letter={letter.toUpperCase()} disabledStatus={allButtonsDisabled} />)}
             </ul>
           </div>
+          {stopTimer ? <EndGamePopup gameEndStatus={gameEndStatus} gameInfo={{ word: this.hiddenWord, time: this.timeGame }} /> : null}
         </section>
       );
     }

@@ -6,7 +6,7 @@
   "scripts": {
     "editorconfig": "editorconfig",
     "stylelint": "stylelint \"source/sass/**/*.scss\" --syntax scss",
-    "eslint": "eslint source/**/*.js",
+    "eslint": "eslint source/**/*.{js,jsx}",
     "check": "npm run editorconfig && npm run stylelint && npm run eslint",
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development"
@@ -66,7 +66,7 @@
     "*.json",
     "*.js",
     "source/*.html",
-    "source/js/**/*.js",
+    "source/js/**/*.{js,jsx}",
     "source/img/**/*.svg",
     "source/sass/**/*.{sass,scss}"
   ]
