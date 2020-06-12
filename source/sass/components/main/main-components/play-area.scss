@@ -1,10 +1,11 @@
 .play-area {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
 
   &__game-area {
-    width: 55%;
+    margin-bottom: 40px;
   }
 
   &__hidden-word {
@@ -40,6 +41,8 @@
   }
 
   &__attempts-left {
+    display: flex;
+    justify-content: center;
 
     &-list {
       display: flex;
@@ -47,18 +50,12 @@
 
     &-health {
       margin: 0 5px;
-      fill: green;
     }
-  }
-
-  &__letter-list-container {
-    width: 55%;
-    display: flex;
-    flex-wrap: wrap;
   }
 
   &__letter-list {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
   }
 
@@ -82,6 +79,39 @@
 
     &:disabled {
       opacity: .2;
+    }
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .play-area {
+    flex-direction: row;
+    justify-content: space-around;
+
+    &__game-area {
+      margin-bottom: 0;
+    }
+
+    &__letter-list-container {
+      width: 50%;
+    }
+
+    &__attempts-left {
+      display: block;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .play-area {
+    align-items: stretch;
+
+    &__game-area {
+      margin-bottom: 0;
+    }
+
+    &__letter-list-container {
+      width: 45%;
     }
   }
 }

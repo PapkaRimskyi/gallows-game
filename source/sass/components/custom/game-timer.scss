@@ -1,0 +1,19 @@
+.game-timer {
+  position: absolute;
+  bottom: 62.5%;
+  left: 1%;
+}
+
+@media (min-width: $tablet-width) {
+  .game-timer {
+    bottom: -10%;
+    left: 4%;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .game-timer {
+    bottom: 3%;
+    left: 2%;
+  }
+}

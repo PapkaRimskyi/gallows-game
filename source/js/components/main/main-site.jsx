@@ -7,7 +7,7 @@ import StartGameButton from './buttons-area/start-game';
 import HiddenWord from './info-area/hidden-word';
 import GallowArea from './info-area/gallow-area';
 import Attempts from './info-area/attempts';
-import GameTimer from './info-area/gameTimer';
+import GameTimer from '../custom/game-timer';
 import EndGamePopup from './buttons-area/end-game';
 
 import LetterButtons from './buttons-area/letter-buttons';

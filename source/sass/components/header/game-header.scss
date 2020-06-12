@@ -1,7 +1,7 @@
 .game-header {
   margin: $margin-auto;
   margin-bottom: 50px;
-  max-width: $mobile-width;
+  width: $mobile-width;
   padding-top: 10px;
 
   &__container {
@@ -67,7 +67,7 @@
 @media (min-width: $tablet-width) {
   .game-header {
     margin-bottom: 100px;
-    max-width: $tablet-width;
+    width: $tablet-width;
 
     &__game-name {
       margin-bottom: 80px;
@@ -84,7 +84,7 @@
     &__game-rules-popup {
       top: 70%;
       right: 0;
-      width: 32%;
+      width: 40%;
     }
   }
 }
@@ -92,7 +92,7 @@
 @media (min-width: $desktop-width) {
   .game-header {
     margin-bottom: 90px;
-    max-width: $max-desktop-width;
+    width: $desktop-width;
     padding-top: 20px;
 
     &__game-name {

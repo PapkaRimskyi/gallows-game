@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-import RulesPopup from './popup-components/rules-component';
+import RulesPopup from '../custom/rules-component';
 
 export default class Header extends React.Component {
   constructor(props) {

@@ -1,5 +1,6 @@
 .game-main {
   margin: $margin-auto;
+  width: $mobile-width;
 
   &__start-game-button {
     margin: $margin-auto;
@@ -28,12 +29,14 @@
 
 @media (min-width: $tablet-width) {
   .game-main {
-    width: 40%;
+    padding-bottom: 35px;
+    width: $tablet-width;
   }
 }
 
 @media (min-width: $desktop-width) {
   .game-main {
-    width: 50%;
+    padding-bottom: 0;
+    width: $desktop-width;
   }
 }

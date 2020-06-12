@@ -1,7 +1,7 @@
 @import "variables.scss";
 @import "global.scss";
-@import "blocks/end-game-popup.scss";
-@import "blocks/game-header.scss";
-@import "blocks/game-main.scss";
-@import "blocks/gameTimer.scss";
-@import "blocks/play-area.scss";
+@import "components/custom/end-game-popup.scss";
+@import "components/header/game-header.scss";
+@import "components/main/game-main.scss";
+@import "components/custom/game-timer.scss";
+@import "components/main/main-components/play-area.scss";

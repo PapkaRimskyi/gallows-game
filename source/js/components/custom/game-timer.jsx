@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-import timerDisplay from '../../../support-methods/time';
+import timerDisplay from '../../support-methods/time';
 
 export default class GameTimer extends React.Component {
   constructor(props) {
