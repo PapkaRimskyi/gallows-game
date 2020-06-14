@@ -26,8 +26,12 @@ export default class PlayArea extends React.Component {
     };
 
     this.wordsForGame = ['дружба', 'пляж', 'солнце', 'луна', 'спутник', 'механизм', 'человек'];
-    this.timeGame = null;
     this.alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
+
+    this.timeGame = null;
+
+    this.correctLetterClass = 'play-area__letter-list-button--correct';
+    this.wrongLetterClass = 'play-area__letter-list-button--wrong';
 
     this.startGameButtonHandler = this.startGameButtonHandler.bind(this);
     this.buttonLettersDelegationHandler = this.buttonLettersDelegationHandler.bind(this);
@@ -60,11 +64,14 @@ export default class PlayArea extends React.Component {
 
   checkCells(buttonLetter) {
     const letterCellCollection = Array.from(document.querySelectorAll('.play-area__hidden-word-list-item'));
-    const cellWithLetter = letterCellCollection.filter((item) => (item.textContent === buttonLetter ? item : false));
+    const cellWithLetter = letterCellCollection.filter((item) => (item.textContent === buttonLetter.textContent ? item : false));
     if (cellWithLetter.length === 0) {
       const lives = this.state.livesLeft.slice();
       lives.splice(lives.findIndex((item) => (item === true ? item : false)), 1, false);
       this.setState(() => ({ livesLeft: lives }));
+      buttonLetter.classList.add(this.wrongLetterClass);
+    } else {
+      buttonLetter.classList.add(this.correctLetterClass);
     }
     this.endOfGame(letterCellCollection);
   }
@@ -75,15 +82,25 @@ export default class PlayArea extends React.Component {
   }
 
   compareWord(buttonLetter) {
-    this.setState(() => ({ currentButtonLetter: buttonLetter }));
+    this.setState(() => ({ currentButtonLetter: buttonLetter.textContent }));
     this.checkCells(buttonLetter);
   }
 
   buttonLettersDelegationHandler(e) {
     if (e.target.tagName === 'BUTTON') {
       e.target.disabled = true;
-      this.compareWord(e.target.textContent);
+      this.compareWord(e.target);
     }
+  }
+
+  removeLetterButtonsBackgroundColor() {
+    Array.from(document.querySelectorAll('.play-area__letter-list-button')).forEach((button) => {
+      if (button.classList.contains(`${this.wrongLetterClass}`)) {
+        button.classList.remove(`${this.wrongLetterClass}`);
+      } else if (button.classList.contains(`${this.correctLetterClass}`)) {
+        button.classList.remove(`${this.correctLetterClass}`);
+      }
+    });
   }
 
   reloadButtonHandler(e) {
@@ -98,6 +115,7 @@ export default class PlayArea extends React.Component {
         gameEndStatus: null,
       }
     ));
+    this.removeLetterButtonsBackgroundColor();
   }
 
   render() {
