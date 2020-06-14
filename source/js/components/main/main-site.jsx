@@ -17,25 +17,22 @@ export default class PlayArea extends React.Component {
     super(props);
     this.state = {
       isGameStarted: false,
+      hiddenWord: null,
       livesLeft: [true, true, true, true, true, true],
-      currentButtonLetter: null,
+      currentButtonLetter: false,
       allButtonsDisabled: false,
       stopTimer: false,
       gameEndStatus: null,
     };
 
     this.wordsForGame = ['дружба', 'пляж', 'солнце', 'луна', 'спутник', 'механизм', 'человек'];
-    this.hiddenWord = null;
     this.timeGame = null;
     this.alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
 
     this.startGameButtonHandler = this.startGameButtonHandler.bind(this);
     this.buttonLettersDelegationHandler = this.buttonLettersDelegationHandler.bind(this);
     this.getTimeGame = this.getTimeGame.bind(this);
-  }
-
-  componentDidMount() {
-    this.getRandomHiddenWord();
+    this.reloadButtonHandler = this.reloadButtonHandler.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -43,10 +40,6 @@ export default class PlayArea extends React.Component {
     if (gameStatus !== prevState.isGameStarted) {
       document.querySelector('.play-area__letter-list-container').addEventListener('click', this.buttonLettersDelegationHandler);
     }
-  }
-
-  getRandomHiddenWord() {
-    this.hiddenWord = this.wordsForGame[randomNumber(0, this.wordsForGame.length - 1)];
   }
 
   getTimeGame(time) {
@@ -78,7 +71,7 @@ export default class PlayArea extends React.Component {
 
   startGameButtonHandler(e) {
     e.preventDefault();
-    this.setState((prevState) => ({ isGameStarted: !prevState.isGameStarted }));
+    this.setState((prevState) => ({ isGameStarted: !prevState.isGameStarted, hiddenWord: this.wordsForGame[randomNumber(0, this.wordsForGame.length - 1)] }));
   }
 
   compareWord(buttonLetter) {
@@ -93,8 +86,24 @@ export default class PlayArea extends React.Component {
     }
   }
 
+  reloadButtonHandler(e) {
+    e.preventDefault();
+    this.setState((prevState) => (
+      {
+        hiddenWord: this.wordsForGame[randomNumber(0, this.wordsForGame.length - 1)],
+        currentButtonLetter: !prevState.currentButtonLetter,
+        livesLeft: [...prevState.livesLeft.map((live) => (live === true ? live : !live))],
+        allButtonsDisabled: !prevState.allButtonsDisabled,
+        stopTimer: !prevState.stopTimer,
+        gameEndStatus: null,
+      }
+    ));
+  }
+
   render() {
-    const { isGameStarted, stopTimer, gameEndStatus } = this.state;
+    const {
+      isGameStarted, stopTimer, gameEndStatus, hiddenWord,
+    } = this.state;
     if (isGameStarted) {
       const { livesLeft, currentButtonLetter, allButtonsDisabled } = this.state;
       return (
@@ -102,7 +111,7 @@ export default class PlayArea extends React.Component {
           <h2 className="visually-hidden">Игровая зона</h2>
           <GameTimer stopTimer={stopTimer} getTimeGame={this.getTimeGame} />
           <div className="play-area__game-area">
-            <HiddenWord word={this.hiddenWord} buttonLetter={currentButtonLetter} />
+            <HiddenWord word={hiddenWord} buttonLetter={currentButtonLetter} />
             <GallowArea lives={livesLeft} />
             <Attempts lives={livesLeft} />
           </div>
@@ -111,7 +120,7 @@ export default class PlayArea extends React.Component {
               {this.alphabet.split('').map((letter) => <LetterButtons key={letter} letter={letter.toUpperCase()} disabledStatus={allButtonsDisabled} />)}
             </ul>
           </div>
-          {stopTimer ? <EndGamePopup gameEndStatus={gameEndStatus} gameInfo={{ word: this.hiddenWord, time: this.timeGame }} /> : null}
+          {stopTimer ? <EndGamePopup gameEndStatus={gameEndStatus} gameInfo={{ word: hiddenWord, time: this.timeGame }} reloadHandler={this.reloadButtonHandler} /> : null}
         </section>
       );
     }

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React from 'react';
@@ -10,23 +11,48 @@ export default class GameTimer extends React.Component {
 
     this.state = { time: 0 };
 
+    this.timeCache = null;
+
     this.timerID = null;
     this.getTimeGameHandler = this.props.getTimeGame;
   }
 
   componentDidMount() {
+    this.setTimer();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { stopTimer } = this.props;
+    if (stopTimer !== prevProps.stopTimer) {
+      this.setState(() => ({ time: 0 }));
+      this.setTimer();
+    }
+  }
+
+  setTimer() {
     this.timerID = setInterval(() => this.setState((prevState) => ({ time: prevState.time + 1 })), 1000);
   }
 
-  render() {
-    const { time } = this.state;
-    const { stopTimer } = this.props;
+  rewriteTime(stopTimer, time) {
+    if (!stopTimer) {
+      this.timeCache = time;
+    }
+  }
+
+  clearTimer(stopTimer) {
     if (stopTimer) {
       clearInterval(this.timerID);
-      this.getTimeGameHandler(time);
+      this.getTimeGameHandler(this.timeCache);
     }
+  }
+
+  render() {
+    const { stopTimer } = this.props;
+    const { time } = this.state;
+    this.rewriteTime(stopTimer, time);
+    this.clearTimer(stopTimer);
     return (
-      <span className="game-timer">{timerDisplay(time)}</span>
+      <span className="game-timer">{timerDisplay(this.timeCache)}</span>
     );
   }
 }
