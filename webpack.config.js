@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const PATHS = {
   src: path.resolve(__dirname, './source'),
-  build: path.resolve(__dirname, './build'),
+  build: path.resolve(__dirname, './docs'),
   assets: 'assets/',
 };
 
