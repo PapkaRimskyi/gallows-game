@@ -1,5 +1,6 @@
 .game-main {
   margin: $margin-auto;
+  margin-bottom: 30px;
   width: $mobile-width;
   flex: 1 0 auto;
 
@@ -30,6 +31,7 @@
 
 @media (min-width: $tablet-width) {
   .game-main {
+    margin-bottom: 0;
     width: $tablet-width;
   }
 }
