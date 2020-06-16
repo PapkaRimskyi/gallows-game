@@ -1,0 +1,19 @@
+.game-footer {
+  margin: $margin-auto;
+  width: $mobile-width;
+  display: flex;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+@media (min-width: $tablet-width) {
+  .game-footer {
+    width: $tablet-width;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .game-footer {
+    width: $desktop-width;
+  }
+}

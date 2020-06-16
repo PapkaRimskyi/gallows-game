@@ -1,5 +1,7 @@
 .play-area {
   position: relative;
+  margin: $margin-auto;
+  width: $mobile-width;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,6 +55,10 @@
     }
   }
 
+  &__letter-list-container {
+    width: $mobile-width;
+  }
+
   &__letter-list {
     height: 14em;
     display: flex;
@@ -94,6 +100,7 @@
 
     &:disabled {
       color: rgba(0, 0, 0, .2);
+      cursor: not-allowed;
     }
 
     &--correct {
@@ -116,6 +123,7 @@
 
 @media (min-width: $tablet-width) {
   .play-area {
+    width: $tablet-width;
     flex-direction: row;
     justify-content: space-around;
 
@@ -129,7 +137,7 @@
 
     &__letter-list {
       height: auto;
-      overflow-y: unset;
+      overflow-y: auto;
     }
 
     &__letter-list-button {
@@ -144,6 +152,7 @@
 
 @media (min-width: $desktop-width) {
   .play-area {
+    width: $desktop-width;
     align-items: stretch;
 
     &__letter-list-container {

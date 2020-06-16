@@ -2,13 +2,13 @@
 import React from 'react';
 import randomNumber from '../../support-methods/randomNumber';
 
-import StartGameButton from './buttons-area/start-game';
+import StartGameButton from './button/start-game';
 
 import HiddenWord from './info-area/hidden-word';
 import GallowArea from './info-area/gallow-area';
 import Attempts from './info-area/attempts';
 import GameTimer from '../custom/game-timer';
-import EndGamePopup from './buttons-area/end-game';
+import EndGamePopup from '../custom/end-game-popup';
 
 import LetterButtons from './buttons-area/letter-buttons';
 

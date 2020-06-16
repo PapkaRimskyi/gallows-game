@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const PATHS = {
   src: path.resolve(__dirname, './source'),
-  build: path.resolve(__dirname, './docs'),
+  build: path.resolve(__dirname, './build'),
   assets: 'assets/',
 };
 
@@ -101,7 +101,6 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: `${PATHS.src}/fonts`, to: `${PATHS.assets}fonts` },
-        { from: `${PATHS.src}/music`, to: `${PATHS.assets}music` },
       ],
     }),
   ],

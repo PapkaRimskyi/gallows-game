@@ -1,6 +1,7 @@
 .game-main {
   margin: $margin-auto;
   width: $mobile-width;
+  flex: 1 0 auto;
 
   &__start-game-button {
     margin: $margin-auto;

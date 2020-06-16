@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-import timerDisplay from '../../../support-methods/time';
+import timerDisplay from '../../support-methods/time';
 
 export default function EndGamePopup(props) {
   const { gameEndStatus, gameInfo, reloadHandler } = props;
