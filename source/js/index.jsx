@@ -2,10 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '../sass/style.scss';
 
-import Header from './components/header/header-site';
-import PlayArea from './components/main/play-area';
-import Footer from './components/footer/footer-site';
+import Header from './blocks/site-blocks/header/game-header';
+import Main from './blocks/site-blocks/main/game-main';
+import Footer from './blocks/site-blocks/footer/game-footer';
 
-ReactDOM.render(<Header />, document.querySelector('.game-header'));
-ReactDOM.render(<PlayArea />, document.querySelector('.game-main'));
-ReactDOM.render(<Footer />, document.querySelector('.game-footer'));
+const root = document.getElementById('root');
+
+function Index() {
+  return (
+    <>
+      <Header />
+      <Main />
+      <Footer />
+    </>
+  );
+}
+
+ReactDOM.render(<Index />, root);

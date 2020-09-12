@@ -1,0 +1,31 @@
+.play-area {
+  position: relative;
+  margin: $margin-auto;
+  width: $mobile-width;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__game-area {
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (min-width: $tablet-width) {
+  .play-area {
+    width: $tablet-width;
+    flex-direction: row;
+    justify-content: space-around;
+
+    &__game-area {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media screen and (min-width: $desktop-width) and (orientation: landscape) {
+  .play-area {
+    width: $desktop-width;
+    align-items: stretch;
+  }
+}

@@ -1,0 +1,80 @@
+.game-header {
+  margin: $margin-auto;
+  margin-bottom: 50px;
+  width: $mobile-width;
+  padding-top: 10px;
+
+  &__container {
+    position: relative;
+  }
+
+  &__game-name {
+    margin: $margin-auto;
+    padding-bottom: 30px;
+    width: 50%;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: underline;
+  }
+
+  &__game-rules-button {
+    position: absolute;
+    top: 80%;
+    right: 34%;
+    font-family: inherit;
+    font-size: 16px;
+    color: rgba(33, 71, 205, 1);
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+
+    &:hover {
+      color: rgba(33, 71, 205, .5);
+    }
+
+    &:active {
+      color: rgb(233, 194, 242);
+    }
+  }
+}
+
+@media screen and (min-width: $tablet-width) {
+  .game-header {
+    margin-bottom: 100px;
+    width: $tablet-width;
+
+    &__game-name {
+      margin-bottom: 80px;
+      font-size: 28px;
+      line-height: 32px;
+    }
+
+    &__game-rules-button {
+      top: 5%;
+      right: 10%;
+      font-size: 18px;
+    }
+  }
+}
+
+@media screen and (min-width: $desktop-width) and (orientation: landscape) {
+  .game-header {
+    margin-bottom: 90px;
+    width: $desktop-width;
+    padding-top: 20px;
+
+    &__game-name {
+      margin-bottom: 0px;
+      font-size: 38px;
+      line-height: 48px;
+    }
+
+    &__game-rules-button {
+      top: 12%;
+      right: 15%;
+      font-size: 20px;
+    }
+  }
+}

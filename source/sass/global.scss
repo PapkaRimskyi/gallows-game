@@ -16,15 +16,18 @@
 
 body {
   margin: $margin-auto;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
   font-family: "Oswald", "Roboto", sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: $font-color;
   background-color: $site-background-color;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 * {

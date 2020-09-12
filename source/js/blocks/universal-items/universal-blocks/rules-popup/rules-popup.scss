@@ -1,0 +1,43 @@
+.rules-popup {
+  position: absolute;
+  top: 140%;
+  padding: 15px 20px;
+  background-color: $white-color;
+  box-shadow: 2px 4px 15px -3px rgba(0, 0, 0, .5);
+  z-index: 2;
+
+  &__headline {
+    margin: $margin-auto;
+    margin-bottom: 10px;
+    width: 65%;
+    text-align: center;
+    color: $black-color;
+  }
+
+  &__rules-list {
+    margin-left: 15px;
+    list-style-type: decimal;
+    color: $rules-font-color;
+  }
+}
+
+@media screen and (min-width: $tablet-width) {
+  .rules-popup {
+    top: 70%;
+    right: 0;
+    width: 40%;
+  }
+}
+
+@media screen and (min-width: $desktop-width) and (orientation: landscape) {
+  .rules-popup {
+    top: 60%;
+    right: 5%;
+    padding: 25px;
+    width: 32%;
+
+    &__headline {
+      margin-bottom: 15px;
+    }
+  }
+}

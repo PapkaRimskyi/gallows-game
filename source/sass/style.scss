@@ -1,9 +1,8 @@
 @import "variables.scss";
 @import "global.scss";
-@import "components/custom/end-game-popup.scss";
-@import "components/header/game-header.scss";
-@import "components/main/game-main.scss";
-@import "components/custom/game-timer.scss";
-@import "components/main/main-components/play-area.scss";
-@import "components/footer/game-footer.scss";
-@import "components/footer/footer-components/author.scss";
+
+@import "./connection-files/header-connect/style-connect.scss";
+
+@import "./connection-files/main-connect/style-connect.scss";
+
+@import "./connection-files/footer-connect/style-connect.scss";

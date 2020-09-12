@@ -1,0 +1,19 @@
+.game-footer {
+  margin: $margin-auto;
+  width: $mobile-width;
+  display: flex;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+@media screen and (min-width: $tablet-width) {
+  .game-footer {
+    width: $tablet-width;
+  }
+}
+
+@media screen and (min-width: $desktop-width) and (orientation: landscape) {
+  .game-footer {
+    width: $desktop-width;
+  }
+}

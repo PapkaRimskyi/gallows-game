@@ -1,0 +1,18 @@
+.attempts-left {
+  display: flex;
+  justify-content: center;
+
+  &__list {
+    display: flex;
+  }
+
+  &__health {
+    margin: 0 5px;
+  }
+}
+
+@media screen and (min-width: $tablet-width) {
+  .attempts-left {
+    display: block;
+  }
+}
