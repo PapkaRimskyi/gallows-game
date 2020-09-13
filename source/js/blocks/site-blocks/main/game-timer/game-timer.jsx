@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import usePrevious from '../../../../custom-hooks/use-previous';
 
 import timerDisplay from '../../../../utils/time';
 
 export default function GameTimer({ gameEndStatus, setFinalTime }) {
   const [gameTime, setGameTime] = useState(0);
   const [timerID, setTimerID] = useState(null);
-  const prevGameEndStatus = usePrevious(gameEndStatus);
 
   useEffect(() => {
-    timerStart();
-  }, []);
-
-  useEffect(() => {
-    if (prevGameEndStatus !== gameEndStatus) {
-      if (gameEndStatus) {
-        clearTimer();
-      } else {
-        setGameTime(0);
-        timerStart();
-      }
+    if (gameEndStatus) {
+      clearTimer();
+    } else {
+      setGameTime(0);
+      timerStart();
     }
   }, [gameEndStatus]);
 

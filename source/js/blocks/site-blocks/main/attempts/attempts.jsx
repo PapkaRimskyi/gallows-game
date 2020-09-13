@@ -8,7 +8,7 @@ export default function Attempts({ lifes }) {
   return (
     <div className="attempts-left">
       <ul className="attempts-left__list">
-        {lifes.map((item, index) => <Attempt key={index} live={item} />)}
+        {lifes.map((item, index) => <Attempt key={index} life={item} />)}
       </ul>
     </div>
   );

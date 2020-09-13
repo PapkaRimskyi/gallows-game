@@ -22,17 +22,25 @@ export default function PlayArea() {
     setHiddenWord(getRandomHiddenWord());
   }, []);
 
+  // Проверка на совпадение между буквой у нажатой кнопки со всеми буквами в слове. Нет совпадений - минус жизнь.
+
   useEffect(() => {
     if (currentButtonLetter) {
       lifeControl(compareAnswer());
     }
   }, [currentButtonLetter]);
 
+  //
+
+  // Проверка жизней и если их не осталось - конец игры.
+
   useEffect(() => {
     if (!lifesLeft.find((item) => item !== false)) {
       setGameEndStatus(true);
     }
   }, [lifesLeft]);
+
+  //
 
   function lifeControl(similarLetter) {
     if (similarLetter.length === 0) {
@@ -53,7 +61,7 @@ export default function PlayArea() {
   function reloadButtonHandler() {
     setHiddenWord(getRandomHiddenWord());
     setCurrentButtonLetter(null);
-    changeLifesLeft((prevState) => prevState.forEach((life) => !life));
+    changeLifesLeft((prevState) => prevState.map((life) => !life));
     setGameEndStatus((prevState) => !prevState);
     setFinalTime(null);
   }
