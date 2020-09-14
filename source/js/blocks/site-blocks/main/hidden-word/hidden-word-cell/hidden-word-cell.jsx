@@ -2,29 +2,35 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import usePrevious from '../../../../../custom-hooks/use-previous';
 
-export default function HiddenWordCell({ correctLetter, currentButtonLetter }) {
+export default function HiddenWordCell({ correctLetter, pushedButtonLetter, setLetterCells }) {
   const [answer, setAnswer] = useState(null);
-  const prevCurrentButtonLetter = usePrevious(currentButtonLetter);
+  const prevCurrentButtonLetter = usePrevious(pushedButtonLetter);
 
   // Очистка полей угаданных букв, когда происходит инициализация следующей игры
 
   useEffect(() => {
-    if (prevCurrentButtonLetter && !currentButtonLetter) {
+    if (prevCurrentButtonLetter && !pushedButtonLetter) {
       setAnswer(null);
     }
-  }, [currentButtonLetter]);
+  }, [pushedButtonLetter]);
 
   //
 
   // Если буква клетки равна букве нажатой кнопки - записывается ответ в стейт.
 
   useEffect(() => {
-    if (correctLetter === currentButtonLetter && Boolean(!answer)) {
-      setAnswer(currentButtonLetter);
+    if (correctLetter === pushedButtonLetter && Boolean(!answer)) {
+      setAnswer(pushedButtonLetter);
     }
-  }, [currentButtonLetter]);
+  }, [pushedButtonLetter]);
 
   //
+
+  useEffect(() => {
+    if (answer) {
+      setLetterCells(Array.from(document.querySelectorAll('.hidden-word__letter-item')));
+    }
+  }, [answer]);
 
   return (
     <li className="hidden-word__letter-item">{answer || null}</li>
@@ -33,9 +39,10 @@ export default function HiddenWordCell({ correctLetter, currentButtonLetter }) {
 
 HiddenWordCell.propTypes = {
   correctLetter: PropTypes.string.isRequired,
-  currentButtonLetter: PropTypes.string,
+  pushedButtonLetter: PropTypes.string,
+  setLetterCells: PropTypes.func.isRequired,
 };
 
 HiddenWordCell.defaultProps = {
-  currentButtonLetter: null,
+  pushedButtonLetter: null,
 };
