@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import GameTimer from '../game-timer/game-timer';
 import HiddenWord from '../hidden-word/hidden-word';
@@ -7,81 +8,90 @@ import Attempts from '../attempts/attempts';
 import Letter from '../letter/letter';
 import EndGamePopup from '../../../universal-items/universal-blocks/end-game-popup/end-game-popup';
 
-import randomNumber from '../../../../utils/randomNumber';
+import randomNumber from '../../../../utils/random-number';
 
-import wordCollection from './word-collection/word-collection';
+import wordCollection from '../../../../mock/word-collection/word-collection';
 
-export default function PlayArea() {
+export default function PlayArea({ hiddenWord, setHiddenWord, lifes, changeLifesLeft, restoreAllLife, finalTime, setFinalTime, pressedLetterID, setPressedLetter, countWords, setCountWords }) {
   const LETTER_BUTTON_CLASS = 'letter__button';
-  const [hiddenWord, setHiddenWord] = useState('');
-  const [pushedButtonLetter, setPushedButtonLetter] = useState(null);
-  const [lifesLeft, changeLifesLeft] = useState([true, true, true, true, true, true]);
-  const [gameEndStatus, setGameEndStatus] = useState(false);
-  const [finalTime, setFinalTime] = useState(null);
-  const [letterCells, setLetterCells] = useState(null);
-  const [winOrLose, setWinOrLose] = useState(null);
+  const [endGame, setEndGame] = useState(false);
+
+  // Считаю количество угаданных букв. Для этого использую match, чтобы найти все похожие буквы в слове. Если совпадений нет, то запускаю функцию вычета жизни.
 
   useEffect(() => {
-    setHiddenWord(getRandomHiddenWord());
-  }, []);
-
-  // Проверка на совпадение между буквой у нажатой кнопки со всеми буквами в слове. Нет совпадений - минус жизнь.
-
-  useEffect(() => {
-    if (pushedButtonLetter) {
-      lifeControl(compareAnswer());
+    if (pressedLetterID) {
+      const regExp = new RegExp(pressedLetterID, 'gi');
+      const matchResult = hiddenWord.match(regExp);
+      if (!matchResult) {
+        lifeStatus();
+      } else {
+        setCountWords(matchResult.length);
+      }
+      setButtonBackgroundColor(matchResult || false, pressedLetterID);
     }
-  }, [pushedButtonLetter]);
+  }, [pressedLetterID]);
 
   //
 
-  // Если не осталось жизней - конец игры. Если все ячейки заполнены буквами - победа.
+  // Если жизней не осталось - конец игры.
 
   useEffect(() => {
-    if (!lifesLeft.find((item) => item !== false)) {
-      setGameEndStatus(true);
-      setWinOrLose(false);
-    } else if (letterCells && letterCells.filter((cell) => cell.textContent).length === hiddenWord.split('').length) {
-      setGameEndStatus(true);
-      setWinOrLose(true);
+    if (!lifes.find((item) => (item === true ? item : false))) {
+      setEndGame(true);
     }
-  }, [lifesLeft, letterCells]);
+  }, [lifes]);
 
   //
 
-  function lifeControl(similarLetter) {
-    if (similarLetter.length === 0) {
-      const lifesCopy = lifesLeft.slice();
-      lifesCopy.splice(lifesCopy.findIndex((item) => (item === true ? item : false)), 1, false);
-      changeLifesLeft(lifesCopy);
-      addColorToButton(false);
-    } else {
-      addColorToButton();
+  // Проверяю, все ли буквы были отгаданы. Сравнивает число отгаданных букв и длинну загаданного слова.
+
+  useEffect(() => {
+    if (pressedLetterID && countWords === hiddenWord.length) {
+      setEndGame(true);
+    }
+  }, [countWords]);
+
+  //
+
+  // Функция, которая вычитает жизни, если они остались.
+
+  function lifeStatus() {
+    if (lifes.find((item) => (item === true ? item : false))) {
+      changeLifesLeft();
     }
   }
 
-  function compareAnswer() {
-    return hiddenWord.split('').filter((item) => item.toUpperCase() === pushedButtonLetter.textContent);
+  // Задаю цвет кнопке в зависимости от правильности ответа.
+
+  function setButtonBackgroundColor(bool, buttonID) {
+    document.getElementById(buttonID).classList.add(bool ? `${LETTER_BUTTON_CLASS}--correct` : `${LETTER_BUTTON_CLASS}--wrong`);
   }
 
-  function getRandomHiddenWord() {
-    return wordCollection[randomNumber(0, wordCollection.length - 1)];
+  //
+
+  // Сброс backgroundColor у кнопок при начале новой игры.
+
+  function clearButtonBackgroundColor() {
+    const pushedButtons = Array.from(document.querySelectorAll(`.${LETTER_BUTTON_CLASS}`))
+      .filter((button) => button.classList.contains(`${LETTER_BUTTON_CLASS}--correct`) || button.classList.contains(`${LETTER_BUTTON_CLASS}--wrong`));
+    pushedButtons.forEach((button) => (button.classList.contains(`${LETTER_BUTTON_CLASS}--correct`)
+      ? button.classList.remove(`${LETTER_BUTTON_CLASS}--correct`)
+      : button.classList.remove(`${LETTER_BUTTON_CLASS}--wrong`)));
   }
 
-  function reloadButtonHandler() {
-    setHiddenWord(getRandomHiddenWord());
-    setPushedButtonLetter(null);
-    changeLifesLeft((prevState) => prevState.map((life) => (life === true ? life : true)));
-    setGameEndStatus((prevState) => !prevState);
-    setLetterCells(null);
-    setFinalTime(null);
-    setWinOrLose(null);
-  }
+  //
 
-  // Добавление BGC нажатой кнопке. Верный ответ - зеленый цвет. Или красный. Очищение BGC у нажатых кнопок происходит в Letter компоненте.
+  // Сброс всех значений для начала новой игры.
+  // Чтобы не создавать лишний экшн, я использую setCountWords для сбрасывания, отправляя туда отрицательное значение, чтобы в экшене посчиталось до 0.
 
-  function addColorToButton(answer = true) {
-    pushedButtonLetter.classList.add(answer ? `${LETTER_BUTTON_CLASS}--correct` : `${LETTER_BUTTON_CLASS}--wrong`);
+  function reloadGameHandler() {
+    setEndGame(false);
+    setHiddenWord(wordCollection[randomNumber(0, wordCollection.length - 1)]);
+    restoreAllLife();
+    setPressedLetter(null);
+    setCountWords(countWords * (-1));
+    setFinalTime(0);
+    clearButtonBackgroundColor();
   }
 
   //
@@ -89,14 +99,32 @@ export default function PlayArea() {
   return (
     <section className="play-area">
       <h2 className="visually-hidden">Игровая зона</h2>
-      <GameTimer gameEndStatus={gameEndStatus} setFinalTime={setFinalTime} />
+      <GameTimer endGame={endGame} setFinalTime={setFinalTime} />
       <div className="play-area__game-area">
-        <HiddenWord pushedButtonLetter={pushedButtonLetter} word={hiddenWord} setLetterCells={setLetterCells} />
-        <GallowArea lifes={lifesLeft} />
-        <Attempts lifes={lifesLeft} />
+        <HiddenWord hiddenWord={hiddenWord} pushedLetter={pressedLetterID} />
+        <GallowArea lifes={lifes} />
+        <Attempts lifes={lifes} />
       </div>
-      <Letter gameEndStatus={gameEndStatus} setPushedButtonLetter={setPushedButtonLetter} LETTER_BUTTON_CLASS={LETTER_BUTTON_CLASS} />
-      {gameEndStatus ? <EndGamePopup gameInfo={{ word: hiddenWord, time: finalTime, gameStatus: winOrLose }} reloadHandler={reloadButtonHandler} /> : null}
+      <Letter setPressedLetter={setPressedLetter} endGame={endGame} LETTER_BUTTON_CLASS={LETTER_BUTTON_CLASS} />
+      {endGame ? <EndGamePopup gameInfo={{ gameStatus: false, time: finalTime, word: hiddenWord }} reloadGameHandler={reloadGameHandler} /> : null}
     </section>
   );
 }
+
+PlayArea.propTypes = {
+  hiddenWord: PropTypes.string.isRequired,
+  setHiddenWord: PropTypes.func.isRequired,
+  lifes: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  changeLifesLeft: PropTypes.func.isRequired,
+  restoreAllLife: PropTypes.func.isRequired,
+  finalTime: PropTypes.number.isRequired,
+  setFinalTime: PropTypes.func.isRequired,
+  pressedLetterID: PropTypes.string,
+  setPressedLetter: PropTypes.func.isRequired,
+  countWords: PropTypes.number.isRequired,
+  setCountWords: PropTypes.func.isRequired,
+};
+
+PlayArea.defaultProps = {
+  pressedLetterID: null,
+};

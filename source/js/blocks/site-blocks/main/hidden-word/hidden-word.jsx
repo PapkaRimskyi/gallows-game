@@ -4,22 +4,21 @@ import PropTypes from 'prop-types';
 
 import HiddenWordCell from './hidden-word-cell/hidden-word-cell';
 
-export default function HiddenWord({ pushedButtonLetter, word, setLetterCells }) {
+export default function HiddenWord({ hiddenWord, pushedLetter }) {
   return (
     <div className="hidden-word">
       <ul className="hidden-word__letter-list">
-        {word.split('').map((item, index) => <HiddenWordCell key={index} setLetterCells={setLetterCells} correctLetter={item.toUpperCase()} pushedButtonLetter={pushedButtonLetter ? pushedButtonLetter.textContent.toUpperCase() : null} />)}
+        {hiddenWord.split('').map((item, index) => <HiddenWordCell key={index} correctLetter={item.toUpperCase()} pushedLetter={pushedLetter} />)}
       </ul>
     </div>
   );
 }
 
 HiddenWord.propTypes = {
-  pushedButtonLetter: PropTypes.objectOf(PropTypes.object),
-  word: PropTypes.string.isRequired,
-  setLetterCells: PropTypes.func.isRequired,
+  hiddenWord: PropTypes.string.isRequired,
+  pushedLetter: PropTypes.string,
 };
 
 HiddenWord.defaultProps = {
-  pushedButtonLetter: null,
+  pushedLetter: null,
 };

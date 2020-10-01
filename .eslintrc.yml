@@ -12,6 +12,7 @@ parserOptions:
     jsx: true
 rules: {
   react/jsx-one-expression-per-line: 'off',
-  max-len: 'off',
   no-use-before-define: ["error", { "functions": false, "classes": true, "variables": true }],
+  max-len: 'off',
+  object-curly-newline: 'off',
 }

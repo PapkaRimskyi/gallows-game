@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import PlayArea from './play-area/play-area';
+import PlayArea from './play-area/container';
 
 import StartGameButton from '../../universal-items/universal-buttons/start-game/start-game';
 

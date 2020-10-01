@@ -2,47 +2,40 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import usePrevious from '../../../../../custom-hooks/use-previous';
 
-export default function HiddenWordCell({ correctLetter, pushedButtonLetter, setLetterCells }) {
-  const [answer, setAnswer] = useState(null);
-  const prevCurrentButtonLetter = usePrevious(pushedButtonLetter);
+export default function HiddenWordCell({ correctLetter, pushedLetter }) {
+  const [rightAnswer, setRightAnswer] = useState(null);
+  const prevPushedLetter = usePrevious(pushedLetter);
 
-  // Очистка полей угаданных букв, когда происходит инициализация следующей игры
+  // Проверяет букву нажатой кнопки. Если правильного ответа не было и correctLetter равен pushedLetter, то идет запись в стейт и в клетку добавляется буква.
 
   useEffect(() => {
-    if (prevCurrentButtonLetter && !pushedButtonLetter) {
-      setAnswer(null);
+    if (!rightAnswer && correctLetter.toUpperCase() === pushedLetter) {
+      setRightAnswer(pushedLetter);
     }
-  }, [pushedButtonLetter]);
+  }, [pushedLetter]);
 
   //
 
-  // Если буква клетки равна букве нажатой кнопки - записывается ответ в стейт.
+  // Если предыдущая буква присутствует, а нынешняя нет - это значит, что игра была начата заново. Значит происходит стирание старых значений полей.
 
   useEffect(() => {
-    if (correctLetter === pushedButtonLetter && Boolean(!answer)) {
-      setAnswer(pushedButtonLetter);
+    if (prevPushedLetter && !pushedLetter) {
+      setRightAnswer(null);
     }
-  }, [pushedButtonLetter]);
+  }, [pushedLetter]);
 
   //
-
-  useEffect(() => {
-    if (answer) {
-      setLetterCells(Array.from(document.querySelectorAll('.hidden-word__letter-item')));
-    }
-  }, [answer]);
 
   return (
-    <li className="hidden-word__letter-item">{answer || null}</li>
+    <li className="hidden-word__letter-item">{rightAnswer || null}</li>
   );
 }
 
 HiddenWordCell.propTypes = {
   correctLetter: PropTypes.string.isRequired,
-  pushedButtonLetter: PropTypes.string,
-  setLetterCells: PropTypes.func.isRequired,
+  pushedLetter: PropTypes.string,
 };
 
 HiddenWordCell.defaultProps = {
-  pushedButtonLetter: null,
+  pushedLetter: null,
 };
