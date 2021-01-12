@@ -106,7 +106,7 @@ export default function PlayArea({ hiddenWord, setHiddenWord, lifes, changeLifes
         <Attempts lifes={lifes} />
       </div>
       <Letter setPressedLetter={setPressedLetter} endGame={endGame} LETTER_BUTTON_CLASS={LETTER_BUTTON_CLASS} />
-      {endGame ? <EndGamePopup gameInfo={{ gameStatus: false, time: finalTime, word: hiddenWord }} reloadGameHandler={reloadGameHandler} /> : null}
+      {endGame ? <EndGamePopup gameInfo={{ gameStatus: countWords === hiddenWord.length, time: finalTime, word: hiddenWord }} reloadGameHandler={reloadGameHandler} /> : null}
     </section>
   );
 }
